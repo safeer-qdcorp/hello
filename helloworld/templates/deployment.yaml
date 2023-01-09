@@ -1,0 +1,43 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: {{ template "fullname" . }}
+    chart: "{{ .Chart.Name }}-{{ .Chart.Version }}"
+    release: {{ .Release.Name | quote }}
+    heritage: {{ .Release.Service | quote }}
+    version: {{ .Chart.Version }}
+  name: {{ .Chart.Name }}
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: {{ template "fullname" . }}
+  template:
+    metadata:
+      labels:
+        provider: fabric8
+        app: {{ template "fullname" . }}
+        chart: "{{ .Chart.Name }}-{{ .Chart.Version }}"
+        release: {{ .Release.Name | quote }}
+        heritage: {{ .Release.Service | quote }}
+        version: 1.0.0
+    spec:
+      containers:
+      - image: "{{ .Values.appimage.image.name }}:{{ .Values.appimage.image.tag }}"
+        livenessProbe:
+          initialDelaySeconds: 60
+          tcpSocket:
+            port: 3000
+        env:
+          - name: NODE_ENV
+            value: "'development'"
+        name: {{ .Values.appimage.image.displayName }}
+        readinessProbe:
+          httpGet:
+            path: /
+            port: 3000
+          initialDelaySeconds: 5
+        securityContext:
+          privileged: false

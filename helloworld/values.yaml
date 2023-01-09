@@ -1,0 +1,15 @@
+# Default values for helloworld
+# This is a YAML-formatted file.
+# Declare variables to be passed into your templates.
+
+appimage:
+  namespace: default
+  image:
+    name: tutum/hello-world
+    tag: latest
+    displayName: helloworld
+  service:
+    ingressClass: internal-ingress
+
+nameOverride: ""
+replicaCount: 1
