@@ -8,7 +8,7 @@ metadata:
     release: {{ .Release.Name | quote }}
     heritage: {{ .Release.Service | quote }}
     version: {{ .Chart.Version }}
-  name: {{ .Chart.Name }}
+  name: {{ template "fullname" . }}
 spec:
   replicas: 1
   selector:
@@ -31,8 +31,11 @@ spec:
           tcpSocket:
             port: 80
         env:
-          - name: NODE_ENV
-            value: "'development'"
+          - name: test
+            valueFrom:
+              secretKeyRef:
+                name: {{ template "fullname" . }}
+                key: test
         name: {{ .Values.appimage.image.displayName }}
         readinessProbe:
           httpGet:

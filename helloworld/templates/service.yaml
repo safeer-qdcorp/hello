@@ -13,7 +13,7 @@ metadata:
     release: {{ .Release.Name | quote }}
     heritage: {{ .Release.Service | quote }}
     version: 1.0.0
-  name: {{ .Chart.Name }}
+  name: {{ template "fullname" . }}
 spec:
   type: NodePort
   ports:
