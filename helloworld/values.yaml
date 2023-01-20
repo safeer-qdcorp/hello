@@ -14,4 +14,4 @@ appimage:
 nameOverride: ""
 replicaCount: 1
 
-test: <test>
+test: ""

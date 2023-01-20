@@ -14,6 +14,7 @@ We truncate at 63 chars because some Kubernetes name fields are limited to this 
 {{- printf "%s-%s" .Release.Name $name | trunc 63 | trimSuffix "-" -}}
 {{- end -}}
 
+# <test> i the placeholder for argocd vault
 {{- define "test" -}}
-{{- default .Values.test | b64enc | quote }}
+{{- default "<test>" .Values.test | b64enc | quote }}
 {{- end -}}
